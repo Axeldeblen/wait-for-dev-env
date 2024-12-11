@@ -290,7 +290,7 @@ const run = async () => {
     });
 
     // Get target url
-    const targetUrl = status.target_url;
+    const targetUrl = status.environment_url;
 
     if (!targetUrl) {
       core.setFailed(`no target_url found in the status check`);
