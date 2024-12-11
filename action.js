@@ -142,7 +142,7 @@ const waitForDeploymentToStart = async ({
   repo,
   sha,
   environment,
-  actorName = 'vercel[bot]',
+  actorName,
   maxTimeout = 20,
   checkIntervalInMilliseconds = 2000,
 }) => {
@@ -167,6 +167,7 @@ const waitForDeploymentToStart = async ({
         });
 
       if (deployment) {
+        console.log({deployment});
         return deployment;
       }
 

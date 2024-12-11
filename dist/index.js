@@ -173,6 +173,7 @@ const waitForDeploymentToStart = async ({
         });
 
       if (deployment) {
+        console.log({deployment});
         return deployment;
       }
 
