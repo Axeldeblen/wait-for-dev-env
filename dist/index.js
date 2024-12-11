@@ -148,7 +148,7 @@ const waitForDeploymentToStart = async ({
   repo,
   sha,
   environment,
-  actorName = 'vercel[bot]',
+  actorName,
   maxTimeout = 20,
   checkIntervalInMilliseconds = 2000,
 }) => {
@@ -296,7 +296,7 @@ const run = async () => {
     });
 
     // Get target url
-    const targetUrl = status.target_url;
+    const targetUrl = status.environment_url;
 
     if (!targetUrl) {
       core.setFailed(`no target_url found in the status check`);
