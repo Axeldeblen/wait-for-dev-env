@@ -3,7 +3,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const axios = require('axios');
-const setCookieParser = require('set-cookie-parser');
 
 const calculateIterations = (maxTimeoutSec, checkIntervalInMilliseconds) =>
   Math.floor(maxTimeoutSec / (checkIntervalInMilliseconds / 1000));
@@ -298,6 +297,7 @@ const run = async () => {
     }
 
     console.log('target url »', targetUrl);
+    console.log('target host »', targetHost);
 
     // Set output
     core.setOutput('url', targetUrl);
