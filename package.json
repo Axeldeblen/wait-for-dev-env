@@ -1,6 +1,6 @@
 {
   "name": "wait-for-dev-env",
-  "version": "1.0",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "repository": {

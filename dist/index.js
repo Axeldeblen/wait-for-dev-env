@@ -60,7 +60,6 @@ const waitForUrl = async ({
   core.setFailed(`Timeout reached: Unable to connect to ${url}`);
 };
 
-
 const waitForStatus = async ({
   token,
   owner,
@@ -85,7 +84,7 @@ const waitForStatus = async ({
       });
 
       const status = statuses.data.length > 0 && statuses.data[0];
-      console.log({status});
+      console.log({ status });
 
       if (!status) {
         throw new StatusError('No status was available');
@@ -173,7 +172,7 @@ const waitForDeploymentToStart = async ({
         });
 
       if (deployment) {
-        console.log({deployment});
+        console.log({ deployment });
         return deployment;
       }
 
@@ -182,14 +181,14 @@ const waitForDeploymentToStart = async ({
           i + 1
         } / ${iterations})`
       );
-    } catch(e) {
+    } catch (e) {
       console.log(
         `Error while fetching deployments, retrying (attempt ${
           i + 1
         } / ${iterations})`
       );
 
-      console.error(e)
+      console.error(e);
     }
 
     await wait(checkIntervalInMilliseconds);
@@ -297,6 +296,7 @@ const run = async () => {
 
     // Get target url
     const targetUrl = status.environment_url;
+    const targetHost = new URL(targetUrl).host;
 
     if (!targetUrl) {
       core.setFailed(`no target_url found in the status check`);
@@ -307,6 +307,7 @@ const run = async () => {
 
     // Set output
     core.setOutput('url', targetUrl);
+    core.setOutput('host', targetHost);
 
     // Wait for url to respond with a success
     console.log(`Waiting for a status code 200 from: ${targetUrl}`);
