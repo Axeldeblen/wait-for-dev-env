@@ -1,5 +1,5 @@
-name: 'Wait for Vercel Preview'
-description: 'Wait for Vercel Deploy Preview to complete. Requires to be run on pull_request or push.'
+name: 'Wait for Dev Env Preview'
+description: 'Wait for Dev Preview to complete. Requires to be run on pull_request or push.'
 branding:
   icon: 'clock'
   color: 'blue'
@@ -10,6 +10,9 @@ inputs:
   max_timeout:
     description: 'The max time to run the action'
     required: false
+  actor_name:
+    description: 'The name of the actor that triggered the action'
+    required: true
   environment:
     description: 'The name of the environment that was deployed to (e.g., staging or production)'
     required: false
@@ -20,12 +23,6 @@ inputs:
     description: 'How often (in seconds) should we make the HTTP request checking to see if the deployment is available?'
     default: '2'
     required: false
-  vercel_password:
-    description: 'Vercel password protection secret'
-    required: false
-  vercel_protection_bypass_header:
-    description: 'Vercel protection bypass for automation'
-    required: false
   path:
     description: 'The path to check. Defaults to the index of the domain'
     default: '/'
@@ -34,8 +31,8 @@ inputs:
 outputs:
   url:
     description: 'The fully qualified deploy preview URL'
-  vercel_jwt:
-    description: 'If the deployment is using password protection, this will be a JWT. Otherwise, outputs an empty string'
+  host:
+    description: 'Host of the deployment'
 runs:
   using: 'node20'
   main: 'dist/index.js'
