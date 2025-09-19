@@ -15,50 +15,6 @@ const calculateIterations = (maxTimeoutSec, checkIntervalInMilliseconds) =>
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const waitForUrl = async ({
-  url,
-  maxTimeout,
-  checkIntervalInMilliseconds,
-  path,
-}) => {
-  const iterations = calculateIterations(
-    maxTimeout,
-    checkIntervalInMilliseconds
-  );
-
-  for (let i = 0; i < iterations; i++) {
-    try {
-      let headers = {};
-
-      let checkUri = new URL(path, url);
-
-      await axios.get(checkUri.toString(), {
-        headers,
-      });
-      console.log('Received success status code');
-      return;
-    } catch (e) {
-      // https://axios-http.com/docs/handling_errors
-      if (e.response) {
-        console.log(
-          `GET status: ${e.response.status}. Attempt ${i} of ${iterations}`
-        );
-      } else if (e.request) {
-        console.log(
-          `GET error. A request was made, but no response was received. Attempt ${i} of ${iterations}`
-        );
-        console.log(e.message);
-      } else {
-        console.log(e);
-      }
-
-      await wait(checkIntervalInMilliseconds);
-    }
-  }
-
-  core.setFailed(`Timeout reached: Unable to connect to ${url}`);
-};
-
 const waitForStatus = async ({
   token,
   owner,
@@ -308,16 +264,6 @@ const run = async () => {
     // Set output
     core.setOutput('url', targetUrl);
     core.setOutput('host', targetHost);
-
-    // Wait for url to respond with a success
-    console.log(`Waiting for a status code 200 from: ${targetUrl}`);
-
-    await waitForUrl({
-      url: targetUrl,
-      maxTimeout: MAX_TIMEOUT,
-      checkIntervalInMilliseconds: CHECK_INTERVAL_IN_MS,
-      path: PATH,
-    });
   } catch (error) {
     core.setFailed(error.message);
   }
